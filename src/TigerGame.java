@@ -19,6 +19,10 @@ public class TigerGame {
         int bufferSize = 1000;
 
         Future<Double> gameFuture;
+
+        System.out.println("Name : " + AgentFunction.getAgentName());
+        System.out.println();
+
         long t1 = System.currentTimeMillis();
 
         double totalScore = 0.0;
@@ -49,7 +53,6 @@ public class TigerGame {
 
         long t2 = System.currentTimeMillis();
 
-        System.out.println();
         System.out.println("Total Score : " + totalScore);
         System.out.println("Average Score : " + (totalScore / (double) iterationCount));
 

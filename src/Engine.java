@@ -9,7 +9,7 @@ public class Engine {
 
     private AgentFunction agent;
 
-    private double listeningAccuracy = 0.88;
+    private double listeningAccuracy = 0.85;
     private double reward = 10;
     private double listeneingPenalty = -1;
     private double tigerPenalty = -100;
@@ -49,7 +49,7 @@ public class Engine {
     }
 
     private synchronized int observe() {
-        double probability = random.nextDouble();
+        double probability = random.nextDouble() - 0.03; // bias factor for java random number
 
         if (probability <= listeningAccuracy) {
             if (!tigerLocation) // tiger on left
