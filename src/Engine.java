@@ -19,13 +19,11 @@ public class Engine {
     private long seed = 0;
     private Random random;
     private boolean tigerLocation;
+    private int maxTimesteps = 100;
 
-    public Engine(AgentFunction agent) {
-        this(agent, -10405);
-    }
-
-    public Engine(AgentFunction agent, long seed) {
+    public Engine(AgentFunction agent, int nbTimesteps, long seed) {
         this.agent = agent;
+        this.maxTimesteps = nbTimesteps;
 
         this.seed = seed;
         if (seed != -10405)
@@ -49,7 +47,7 @@ public class Engine {
     }
 
     private synchronized int observe() {
-        double probability = random.nextDouble() - 0.015; // bias factor for java random number
+        double probability = random.nextDouble();
 
         if (probability <= listeningAccuracy) {
             if (!tigerLocation) // tiger on left
@@ -91,6 +89,7 @@ public class Engine {
             System.out.println("Beginning game : " + (gameID + 1) + "\n");
 
         resetState(); // initialize the game
+        int timeStep = 1;
 
         if (verbose)
             System.out.println("Observed : " + Observation.getName(Observation.NO_OBSERVATION)); // initial no observation
@@ -104,7 +103,7 @@ public class Engine {
 
         if (verbose) System.out.println("Performed action : " + Action.getName(action) + " \n");
 
-        while (!checkWrongDoorOpened(action)) {
+        while (timeStep <= maxTimesteps) {
             if (action == Action.ACTION_OPEN_LEFT || action == Action.ACTION_OPEN_RIGHT) {
                 updateState(action); //
                 observation = Observation.NO_OBSERVATION;
@@ -121,6 +120,8 @@ public class Engine {
             if (verbose) System.out.println("Current tiger location = " + tigerLocation);
 
             if (verbose) System.out.println("Performed action : " + Action.getName(action) + "\n");
+
+            timeStep++;
         }
 
         score += tigerPenalty; // game ending penalty

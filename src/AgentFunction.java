@@ -1,7 +1,10 @@
-/**
- * Created by Yue on 12-Apr-17.
- */
-public class AgentFunction {
+import sun.management.Agent;
+
+import java.io.*;
+
+public class AgentFunction implements Serializable {
+
+    public static final long serialVersionUID = 151129951;
 
     private static final String AGENT_NAME = "Agent Smith";
 
@@ -61,6 +64,37 @@ public class AgentFunction {
         }
     }
 
+    protected synchronized void serialize() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("agent.dat"))){
+            oos.writeObject(this);
+            System.out.println("Saved the agent in 'agent.dat'.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to serialize to file. (FileNotFoundException)");
+        } catch (IOException e) {
+            System.out.println("Unable to serialize to file. (IOException");
+        }
+    }
+
+    protected static synchronized AgentFunction deserialize() {
+        AgentFunction agent = null;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("agent.dat"))) {
+            agent = (AgentFunction) ois.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found, therefore cannot deserialize. Creating new agent.");
+            agent = new AgentFunction();
+        } catch (IOException e) {
+            System.out.println("IO Exception occured. Creating new agent.");
+            agent = new AgentFunction();
+
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found exception occured. Creating default agent.");
+            agent = new AgentFunction();
+        }
+
+        return agent;
+    }
 
     public static String getAgentName() {
         return AGENT_NAME;

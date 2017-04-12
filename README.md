@@ -13,20 +13,15 @@ Modify the code in agent.py (specifically the 'act' method).
 Actions and Observations must be checked against their global constants in Action and Observation classes, as shown in the example model (which uses
 Leslie Kaelbling's optimal Finite State Machine model for the Tiger game).
 
-Caveats
------------
-Due to the different implementations of Python's random number generator and Java's Random number generater, the same listeneing accuracy of 85 % provides very different results on Java than on Python. 
-
-Below are the comparisons of Java and Python on 100 million runs.
-
-- Java (85 % accuracy) = 32.46 +- 1.824 
-- Python (85 % accuracy) = 197.496 +- 0.598
-
-This is due to a constant bias in Java's RNG, compared to Python's RNG. On subtracting the constant bias factor of 1.5 % to the generated probabilities, the scores match.
-
-- Java (85 % accuracy, 1.5 % bias) = 198.17 +- 0.632
+Arguments
+--------------------------------------
+-i      : Number of games to be played (default 1 million)
+-t      : Number of timesteps to play each game (default 100)
+-load   : Load the agent which was trained previously.
+          Will ask permission to overwrite old agent with new agent if used.
+-r      : Set random seed.
 
 Performance
------------
+--------------------------------------
 
 100 million games with default settings - 2 minutes 14 seconds
