@@ -15,6 +15,9 @@ public class TigerGame {
         executor = Executors.newCachedThreadPool();
         ArrayList<Future<Double>> gameFutures = new ArrayList<>();
 
+        agent = new AgentFunction();
+        engine = new Engine(agent);
+
         int iterationCount = 1000000;
         int bufferSize = 1000;
 
@@ -26,7 +29,7 @@ public class TigerGame {
         long t1 = System.currentTimeMillis();
 
         double totalScore = 0.0;
-        double currentScore = 0.0;
+        double currentScore;
 
         // queue up iteration count number of games
         for (int i = 0; i < iterationCount; i++) {
@@ -64,11 +67,7 @@ public class TigerGame {
     }
 
     private static synchronized Callable<Double> buildGameCallable(final int gameID) {
-        Callable<Double> callable = () -> {
-            agent = new AgentFunction();
-            engine = new Engine(agent);
-            return engine.playGame(gameID);
-        };
+        Callable<Double> callable = () -> engine.playGame(gameID);
 
         return callable;
     }

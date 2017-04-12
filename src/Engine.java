@@ -21,14 +21,14 @@ public class Engine {
     private boolean tigerLocation;
 
     public Engine(AgentFunction agent) {
-        this(agent, 0);
+        this(agent, -10405);
     }
 
     public Engine(AgentFunction agent, long seed) {
         this.agent = agent;
 
         this.seed = seed;
-        if (seed != 0)
+        if (seed != -10405)
             random = new Random(seed);
         else
             random = new Random();
@@ -49,7 +49,7 @@ public class Engine {
     }
 
     private synchronized int observe() {
-        double probability = random.nextDouble() - 0.03; // bias factor for java random number
+        double probability = random.nextDouble() - 0.015; // bias factor for java random number
 
         if (probability <= listeningAccuracy) {
             if (!tigerLocation) // tiger on left
@@ -96,8 +96,9 @@ public class Engine {
             System.out.println("Observed : " + Observation.getName(Observation.NO_OBSERVATION)); // initial no observation
 
         int observation = Observation.NO_OBSERVATION;
-        int action = agent.act(observation);
+        int action = agent.act(0, observation);
         double score = reward(action);
+        double totalScore = score;
 
         if (verbose) System.out.println("Current tiger location = " + tigerLocation);
 
@@ -113,8 +114,9 @@ public class Engine {
 
             if (verbose) System.out.println("Observed : " + Observation.getName(observation) + " \n");
 
-            action = agent.act(observation);
-            score += reward(action);
+            action = agent.act(score, observation);
+            score = reward(action);
+            totalScore += score;
 
             if (verbose) System.out.println("Current tiger location = " + tigerLocation);
 
@@ -129,7 +131,7 @@ public class Engine {
             System.out.println();
         }
 
-        return score;
+        return totalScore;
     }
 
 

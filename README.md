@@ -22,9 +22,9 @@ Below are the comparisons of Java and Python on 100 million runs.
 - Java (85 % accuracy) = 32.46 +- 1.824 
 - Python (85 % accuracy) = 197.496 +- 0.598
 
-This is due to a constant bias in Java's RNG, compared to Python's RNG. On subtracting the constant bias factor of 3 % to the generated probabilities, the scores match.
+This is due to a constant bias in Java's RNG, compared to Python's RNG. On subtracting the constant bias factor of 1.5 % to the generated probabilities, the scores match.
 
-- Java (85 % accuracy, 3 % bias) = 198.17 +- 0.632
+- Java (85 % accuracy, 1.5 % bias) = 198.17 +- 0.632
 
 Performance
 -----------

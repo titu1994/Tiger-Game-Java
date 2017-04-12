@@ -14,7 +14,7 @@ public class AgentFunction {
         rightCount = 0;
     }
 
-    public synchronized int act(int observation) {
+    public synchronized int act(double score, int observation) {
         // Example of Leslie Kaelbling's optimal agent model,
         // minus the bottom part of the Finite State Machine
 
